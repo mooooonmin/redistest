@@ -16,6 +16,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
+    // 레디스 기본 환경설정
+
     @Value("${spring.cache.redis.host}")
     private String host;
 
@@ -38,8 +40,9 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(connectionFactory)
+        redisTemplate.setConnectionFactory(connectionFactory);
 
+        // 직렬화 시켜줌 -> 이렇게 안하면 byte 타입으로 들어가서 가져올때 불편함
         // 일반적인 key:value의 경우 시리얼라이저
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
