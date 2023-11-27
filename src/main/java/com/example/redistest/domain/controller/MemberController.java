@@ -40,13 +40,13 @@ public class MemberController {
     }
 
     @PutMapping("/{memberId}")
-    public Member update(@PathVariable Long memberId, @RequestBody MemberDto memberDto) {
+    public Member update(@PathVariable("memberId") Long memberId, @RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.getName(), memberDto.getAge());
         return memberService.update(memberId, member);
     }
 
     @DeleteMapping("/{memberId}")
-    public void delete(@PathVariable Long memberId) {
+    public void delete(@PathVariable("memberId") Long memberId) {
         memberService.delete(memberId);
     }
 }

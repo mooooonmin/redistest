@@ -9,24 +9,23 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    @Cacheable(key = "'allMembers'")
+    @Cacheable(value = "allMembers", key = "'allMembers'")
     List<Member> findAll();
 
-    @Cacheable(key = "'member_' + #id", unless = "#result == null")
+    @Cacheable(value = "members", key = "'member_' + #id", unless = "#result == null")
     Optional<Member> findById(Long id);
 
     @Override
-    @CacheEvict(key = "'allMembers'")
+    @CacheEvict(value = "allMembers", key = "'allMembers'")
     <S extends Member> S save(S entity);
 
-    @Override
-    @CacheEvict(key = "'member_' + #entity.id")
+    @CacheEvict(value = "members", key = "'member_' + #entity.id")
     void delete(Member entity);
 
-    @Override
-    @CacheEvict(key = "'member_' + #entity.id")
+    @CacheEvict(value = "members", key = "'member_' + #entity.id")
     void deleteAll(Iterable<? extends Member> entities);
 }
