@@ -1,3 +1,4 @@
+/*
 package com.example.redistest.service.impl;
 
 import com.example.redistest.dto.TestDto;
@@ -84,3 +85,4 @@ public class RedisServiceImpl implements RedisService {
         return testEntities.isEmpty() ? null : testEntities;
     }
 }
+*/

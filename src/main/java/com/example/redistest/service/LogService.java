@@ -17,10 +17,6 @@ public class LogService {
 
     private final LogFacade logFacade;
 
-    @Cacheable(cacheNames = "searchAll",
-            key = "#root.target + #root.methodName",
-            sync = true,
-            cacheManager = "rcm")
     public List<LogResponse> searchAll() {
         return logFacade.findAllOrderByDateAtDesc()
                 .stream()
