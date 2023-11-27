@@ -1,0 +1,46 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: spring_test/test
+          stage: main
+          yaml: >
+            name: redistest
+
+            app: java@17
+
+            options:
+              ports: 8080
+              env:
+                - name: REDIS_HOST
+                  value: apn1-eager-monkfish-34453.upstash.io
+                - name: REDIS_PORT
+                  value: "34453"
+                - name: REDIS_PASSWORD
+                  value: d068771c18aa467c908f77ac5e4b499c
+                - name: MYSQL_URL
+                  value: jdbc:mysql://gcp.connect.psdb.cloud/testmysql?sslMode=VERIFY_IDENTITY
+                - name: MYSQL_USERNAME
+                  value: 05jcpdbo1bvdmeonqfjy
+                - name: MYSQL_PASSWORD
+                  value: pscale_pw_eSi0nW6Bd2h1gpxCHmlk73xzsUakBfAOsvhVLCNquSn
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
