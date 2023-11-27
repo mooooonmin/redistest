@@ -1,7 +1,9 @@
 package com.example.redistest.service.impl;
 
+import com.example.redistest.dto.TestDto;
 import com.example.redistest.entity.TestEntity;
 import com.example.redistest.service.RedisService;
+import com.example.redistest.service.util.JsonUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,14 @@ public class RedisServiceImpl implements RedisService {
     private final ListOperations<String, Object> listOps;
 
     // 레디스를 사용하는 부분 -> TODO 프로젝트 환경에 맞게 코드 변경
+
+    public void saveData(TestDto dataObject, String uuid, long time) {
+        String json = JsonUtils.DTOtoRedisString(dataObject, uuid, time).replace("\"null\"", "null");
+        System.out.println(json);
+        // 데이터 넣기 예시
+        listOps.leftPush(dataObject.getClass() + "example" + dataObject.getClass(), json);
+        listOps.trim(dataObject.getClass() + "example" + dataObject.getClass(), 0, 99);
+    }
 
     // 일부 데이터 가져오는 방식
     @SneakyThrows
