@@ -16,9 +16,7 @@ import lombok.ToString;
 @Entity
 public class Member {
 
-    // 캐싱 대상
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Integer age;
