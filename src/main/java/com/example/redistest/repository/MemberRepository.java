@@ -24,14 +24,14 @@ public class MemberRepository {
         return new Members(members);
     }
 
-    @Cacheable(key = "#memberId", unless = "#result == null")
+    @Cacheable(key = "#result.id", unless = "#result == null")
     public Member findById(Long memberId) {
         Member member = store.get(memberId);
         log.info("Repository find {}", member);
         return member;
     }
 
-    @CachePut(key = "#memberId")
+    @CachePut(key = "#result.id")
     @CacheEvict(key = "'all'")
     public Member save(Member member) {
         Long newId = calculateId();
@@ -43,16 +43,16 @@ public class MemberRepository {
         return member;
     }
 
+
     private Long calculateId() {
         if (store.isEmpty()) {
             return 1L;
         }
-
         int lastIndex = store.size() - 1;
         return (Long) store.keySet().toArray()[lastIndex] + 1;
     }
 
-    @CachePut(key = "#member.id")
+    @CachePut(key = "#result.id")
     @CacheEvict(key = "'all'")
     public Member update(Member member) {
         log.info("Repository update {}", member);
@@ -62,7 +62,7 @@ public class MemberRepository {
 
     @Caching(evict = {
             @CacheEvict(key = "'all'"),
-            @CacheEvict(key = "#member.id")
+            @CacheEvict(key = "#memberId")
     })
     public void delete(Member member) {
         log.info("Repository delete {}", member);

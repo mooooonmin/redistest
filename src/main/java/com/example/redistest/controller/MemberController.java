@@ -37,6 +37,7 @@ public class MemberController {
         return savedMember;
     }
 
+
     @PutMapping("/members/{memberId}")
     public Member update(@PathVariable Long memberId, @RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.getName(), memberDto.getAge());
