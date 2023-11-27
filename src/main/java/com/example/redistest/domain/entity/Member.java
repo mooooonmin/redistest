@@ -12,7 +12,6 @@ import lombok.ToString;
 public class Member {
 
     // 캐싱 대상
-
     private Long id;
     private String name;
     private Integer age;
