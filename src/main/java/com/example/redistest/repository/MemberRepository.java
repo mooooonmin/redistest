@@ -2,12 +2,8 @@ package com.example.redistest.repository;
 
 import com.example.redistest.domain.entity.Member;
 import com.example.redistest.domain.entity.Members;
-import jakarta.persistence.Cacheable;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.LinkedHashMap;
@@ -35,7 +31,7 @@ public class MemberRepository {
         return member;
     }
 
-    @CachePut(key = "#member.id")
+    @CachePut(key = "#memberId")
     @CacheEvict(key = "'all'")
     public Member save(Member member) {
         Long newId = calculateId();
