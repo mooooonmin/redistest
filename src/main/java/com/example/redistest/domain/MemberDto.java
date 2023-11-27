@@ -15,12 +15,11 @@ public class MemberDto {
         this.age = age;
     }
 
-    // 이름 설정
+
     public void setName(String name) {
         this.name = name;
     }
 
-    // 나이 설정
     public void setAge(Integer age) {
         this.age = age;
     }

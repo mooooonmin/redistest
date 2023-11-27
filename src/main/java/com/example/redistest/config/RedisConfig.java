@@ -16,8 +16,8 @@ public class RedisConfig {
     @Value("${spring.cache.redis.port}")
     private int port;
 
-    @Value("${spring.cache.redis.password}")
-    private String password;
+//    @Value("${spring.cache.redis.password}")
+//    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {

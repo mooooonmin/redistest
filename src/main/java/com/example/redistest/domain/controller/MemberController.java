@@ -1,54 +1,52 @@
-package com.example.redistest.controller;
+package com.example.redistest.domain.controller;
 
 import com.example.redistest.domain.MemberDto;
 import com.example.redistest.domain.entity.Member;
-import com.example.redistest.domain.entity.Members;
-import com.example.redistest.repository.MemberRepository;
+import com.example.redistest.domain.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/members")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    @GetMapping("/members")
-    public Members findAll() {
-        Members members = memberRepository.findAll();
+    @GetMapping()
+    public List<Member> findAll() {
+        List<Member> members = memberService.findAllMembers();
         log.info("Controller findAll {}", members);
         return members;
     }
 
-    @GetMapping("/members/{memberId}")
-    public Member findById(@PathVariable Long memberId) {
-        Member member = memberRepository.findById(memberId);
+    @GetMapping("/{memberId}")
+    public Member findById(@PathVariable("memberId") Long id) {
+        Member member = memberService.findById(id);
         log.info("Controller find {}", member);
         return member;
     }
 
-    @PostMapping("/members")
+    @PostMapping()
     public Member save(@RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.getName(), memberDto.getAge());
-        Member savedMember = memberRepository.save(member);
+        Member savedMember = memberService.save(member);
         log.info("Controller save {}", savedMember);
         return savedMember;
     }
 
-
-    @PutMapping("/members/{memberId}")
+    @PutMapping("/{memberId}")
     public Member update(@PathVariable Long memberId, @RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.getName(), memberDto.getAge());
-        member.setId(memberId);
-        return memberRepository.update(member);
+        return memberService.update(memberId, member);
     }
 
-    @DeleteMapping("/members/{memberId}")
+    @DeleteMapping("/{memberId}")
     public void delete(@PathVariable Long memberId) {
-        Member member = memberRepository.findById(memberId);
-        log.info("Controller delete {}", member);
-        memberRepository.delete(member);
+        memberService.delete(memberId);
     }
 }
